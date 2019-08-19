@@ -24,5 +24,8 @@
     "start": "babel-node src/app.js",
     "dev": "nodemon --exec babel-node src/app.js --delay 1",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "mysql": "^2.17.1"
   }
 }
