@@ -7,6 +7,6 @@ const config = {
     dbName: 'solrec5',
   },
   sensingInterval: 1000,
-};
+}
 
-export default config;
+export default config

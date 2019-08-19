@@ -1,5 +1,8 @@
-import db from './mysql';
-import config from './config';
+import db from './mysql'
+import config from './config'
+
+import * as test from './data/test'
+import * as generator from './data/generator'
 
 const init = () => {
   db.connect(
@@ -10,24 +13,37 @@ const init = () => {
     config.db.dbName,
     (rsc) => {
       if (rsc == '1') {
-        console.log('DB Connection SUCCESS!');
+        console.log('DB Connection SUCCESS!')
       }
     },
-  );
-};
+  )
+}
 
 const dbInsert = () => {
-  // DB Insert
-  try {
-    db.insertData(new Date(), 'text');
-  } catch (error) {
-    console.log(error);
-  }
-};
+  test.data = generator.dataGenerator(
+    test.getDataSpec(new Date().getHours()),
+    test.data,
+  )
+  const query = generator.queryGenerator(test.tableInfo, test.data)
+  console.table(test.data)
+  console.log(query)
+
+  console.time('insertData')
+
+  db.getResult(query, '', (err, results) => {
+    if (err) {
+      console.log(results)
+    } else {
+      console.timeEnd('insertData')
+    }
+  })
+}
 
 if (require.main === module) {
-  init();
+  init()
+
   setInterval(() => {
-    dbInsert();
-  }, 1000);
+    dbInsert()
+    console.table(test.data)
+  }, 1000)
 }

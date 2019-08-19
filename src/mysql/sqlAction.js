@@ -1,26 +1,21 @@
-import { getResult } from './mysql';
+import { getResult } from './mysql'
 
 const insertData = (timestamp, text) => {
-  console.time('insertData');
+  console.time('insertData')
   const query = `replace into test 
-        (
-            timestamp, text
-        ) 
-            value 
-            (
-                now(), 
-                '${text}'
-            );`;
+        set
+            timestamp=now(), data1=1.1,data2=0.3
+      `
 
-  const sql = query;
+  const sql = query
 
   getResult(sql, '', (err, results) => {
     if (err) {
-      console.log(results);
+      console.log(results)
     } else {
-      console.timeEnd('insertData');
+      console.timeEnd('insertData')
     }
-  });
-};
+  })
+}
 
-export { insertData };
+export { insertData }
