@@ -1,45 +1,25 @@
-/**
- * Modified by PARK J. 2016.12.  ~
- */
+import { getResult } from './mysql';
 
-import db from "./mysql";
-
-const insertData = (
-  seqNum,
-  charge_state,
-  array_voltage,
-  battery_voltage,
-  charge_current,
-  output_power,
-  callback
-) => {
-  console.time("insertData");
-  const query = `replace into tb_values 
+const insertData = (timestamp, text) => {
+  console.time('insertData');
+  const query = `replace into test 
         (
-            seqNum,
-            datetime,
-            charge_state,
-            array_voltage,
-            battery_voltage,
-            charge_current,
-            output_power
+            timestamp, text
         ) 
             value 
             (
-                '${seqNum}', 
                 now(), 
-                '${charge_state}', 
-                '${array_voltage}', 
-                '${battery_voltage}', 
-                '${charge_current}', 
-                '${output_power}'
+                '${text}'
             );`;
 
   const sql = query;
 
-  db.getResult(sql, "", function(err, results) {
-    console.timeEnd("insertData");
-    callback(err, results);
+  getResult(sql, '', (err, results) => {
+    if (err) {
+      console.log(results);
+    } else {
+      console.timeEnd('insertData');
+    }
   });
 };
 
