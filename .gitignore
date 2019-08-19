@@ -59,3 +59,8 @@ typings/
 
 # next.js build output
 .next
+
+
+## add gitignore by Ds 
+
+package-lock.json
