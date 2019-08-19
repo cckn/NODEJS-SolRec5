@@ -1,0 +1,24 @@
+{
+    "sqltools.connections": [
+        {
+            "connectionTimeout": 30,
+            "database": "solrec5",
+            "dialect": "MySQL",
+            "name": "local",
+            "password": "elsys1234",
+            "port": 3306,
+            "server": "127.0.0.1",
+            "username": "root"
+        },
+        {
+            "askForPassword": true,
+            "connectionTimeout": 30,
+            "database": "sys",
+            "dialect": "MySQL",
+            "name": "local",
+            "port": 3306,
+            "server": "127.0.0.1",
+            "username": "root"
+        }
+    ]
+}
