@@ -64,3 +64,4 @@ typings/
 ## add gitignore by Ds 
 
 package-lock.json
+dist/*
