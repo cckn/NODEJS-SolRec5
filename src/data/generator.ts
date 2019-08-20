@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { random } from 'lodash'
 
 import * as test from './test'
 
@@ -17,7 +17,7 @@ function dataGenerator(dataSpec, data) {
         default: { base, range, delta },
       } = dataSpec[key]
 
-      data[key] = data[key] + _.random(-delta, delta, true)
+      data[key] = data[key] + random(-delta, delta, true)
     }
   })
   return data
@@ -37,12 +37,12 @@ export { dataGenerator, queryGenerator }
 
 if (require.main === module) {
   setInterval(() => {
-    test.data = dataGenerator(
+    const data = dataGenerator(
       test.getDataSpec(new Date().getHours()),
       test.data,
     )
-    const query = queryGenerator(test.tableInfo, test.data)
-    console.table(test.data)
+    const query = queryGenerator(test.tableInfo, data)
+    console.table(data)
     console.log(query)
   }, 1000)
 }

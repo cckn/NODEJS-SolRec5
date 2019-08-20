@@ -1,4 +1,4 @@
-import db from './mysql'
+import db from './mysql/index.js'
 import config from './config'
 
 import * as test from './data/test'
@@ -20,12 +20,12 @@ const init = () => {
 }
 
 const dbInsert = () => {
-  test.data = generator.dataGenerator(
+  const data = generator.dataGenerator(
     test.getDataSpec(new Date().getHours()),
     test.data,
   )
-  const query = generator.queryGenerator(test.tableInfo, test.data)
-  console.table(test.data)
+  const query = generator.queryGenerator(test.tableInfo, data)
+  console.table(data)
   console.log(query)
 
   console.time('insertData')
