@@ -1,49 +1,41 @@
-import db from './mysql'
+import * as db from './db'
 import config from './config'
 
-import * as test from './data/test'
-import * as generator from './data/generator'
+import * as test from './data/6-test'
+import * as dataReducer from './data/reducer'
 
-const init = () => {
-  db.connect(
-    config.db.host,
-    config.db.port,
-    config.db.id,
-    config.db.pw,
-    config.db.dbName,
-    (rsc) => {
-      if (rsc == '1') {
-        console.log('DB Connection SUCCESS!')
-      }
-    },
-  )
-}
+const dataRequest = []
 
-const dbInsert = () => {
-  test.data = generator.dataGenerator(
-    test.getDataSpec(new Date().getHours()),
-    test.data,
-  )
-  const query = generator.queryGenerator(test.tableInfo, test.data)
-  console.table(test.data)
-  console.log(query)
+const main = () => {
+  db.init()
 
-  console.time('insertData')
+  dataRequest.push(test)
 
-  db.getResult(query, '', (err, results) => {
-    if (err) {
-      console.log(results)
-    } else {
-      console.timeEnd('insertData')
+  for (let hours = 0; hours < 24; hours++) {
+    for (let min = 0; min < 60; min = min + 5) {
+      dataRequest.forEach(({ tableInfo, dataActions }) => {
+        dataActions.forEach(({ name, action }) => {
+          dataReducer.reducer(name, action(hours, min))
+        })
+      })
+      console.log(
+        `${hours} : ${min} ${JSON.stringify(dataReducer.getDataObject())}`,
+      )
     }
-  })
+    console.log(hours)
+  }
+  // setInterval(() => {
+  //   datas.forEach(({ data, tableInfo, getDataSpecByHours }, idx, array) => {
+  //     // const result = generator.dataGenerator(
+  //     //   getDataSpecByHours(new Date().getHours()),
+  //     //   data,
+  //     // )
+  //     console.log(getDataSpecByHours(1))
+  //     // db.insert(result, tableInfo)
+  //     // array[idx] = { ...array[idx], data }
+  //     // console.table(result)
+  //   })
+  // }, config.sensingInterval)
 }
 
-if (require.main === module) {
-  init()
-
-  setInterval(() => {
-    dbInsert()
-    console.table(test.data)
-  }, 1000)
-}
+main()

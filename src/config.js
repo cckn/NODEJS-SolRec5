@@ -1,10 +1,11 @@
 const config = {
   db: {
     host: '127.0.0.1',
-    id: 'root',
-    pw: 'elsys1234',
+    // host: '222.102.213.36',
+    id: 'solrec5',
+    pw: 'solrec5@123',
     port: 3306,
-    dbName: 'solrec5',
+    dbName: 'solrec5v2',
   },
   sensingInterval: 1000,
 }
