@@ -1,8 +1,8 @@
-import db from './mysql'
-import config from './config'
+import db from '../mysql'
+import config from '../config'
 
-import { queryGenerator } from './data/reducer'
-import * as test from './data/6-test'
+import { queryGenerator } from './queryGenerator'
+import * as test from './6-test'
 
 const init = () => {
   db.connect(
@@ -19,8 +19,8 @@ const init = () => {
   )
 }
 
-const insert = (data, dataSpec) => {
-  const query = queryGenerator(data, dataSpec)
+const insert = (table, data) => {
+  const query = queryGenerator(table, data)
 
   console.time('insertData')
 

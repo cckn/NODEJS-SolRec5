@@ -19,21 +19,15 @@ const dataActions = [
         ? {
             type: actionTypes.RANDOM_VALUE,
             value: 30,
-            options: { delta: 1, range: 10 },
+            options: { delta: 3, range: 10 },
           }
         : hours < 16
         ? {
             type: actionTypes.RANDOM_VALUE,
             value: 40,
-            options: { delta: 1, range: 10 },
+            options: { delta: 4, range: 10 },
           }
         : hours < 18
-        ? {
-            type: actionTypes.RANDOM_VALUE,
-            value: 20,
-            options: { delta: 1, range: 10 },
-          }
-        : hours < 19
         ? {
             type: actionTypes.GO_STATIC_VALUE,
             value: 0,
@@ -42,15 +36,33 @@ const dataActions = [
         : {
             type: actionTypes.GO_STATIC_VALUE,
             value: 0,
-            options: { delta: 1 },
+            options: { delta: 2 },
           }
     },
   },
+  {
+    name: 'static',
+    action: () => ({
+      type: actionTypes.FIXED_VALUE,
+      value: 200,
+      options: { delta: 2 },
+    }),
+  },
+  {
+    name: 'sum',
+    action: () => ({
+      type: actionTypes.CALLBACK_FUNCTION,
+      value: 200,
+      options: { ref: ['random'], f: (prev, ref) => prev + ref[0] / 12 },
+    }),
+  },
   // {
   //   name: 'static',
-  //   spec: {
-  //     default: { type: TYPES.STATIC, value: 200, delta: 1 },
-  //   },
+  //   action: () => ({
+  //     type: actionTypes.FIXED_VALUE,
+  //     value: 200,
+  //     options: { delta: 2 },
+  //   }),
   // },
   // {
   //   name: 'sum',
@@ -58,12 +70,16 @@ const dataActions = [
   //     default: { type: TYPES.TOTAL, value: 100, ref: 'random' },
   //   },
   // },
-  // {
-  //   name: 'state',
-  //   spec: {
-  //     default: { type: TYPES.STATE, value: 1, delta: null },
-  //   },
-  // },
+  {
+    name: 'state',
+    action: (hours, min) => {
+      return {
+        type: actionTypes.RANDOM_VALUE,
+        value: 6000,
+        options: { delta: 1000, range: 10 },
+      }
+    },
+  },
 ]
 
 export { tableInfo, dataActions }

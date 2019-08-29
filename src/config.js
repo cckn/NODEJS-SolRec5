@@ -1,3 +1,7 @@
+const SECOND = 1000
+const MINUTE = SECOND * 60
+const HOUR = MINUTE * 60
+
 const config = {
   db: {
     host: '127.0.0.1',
@@ -7,7 +11,7 @@ const config = {
     port: 3306,
     dbName: 'solrec5v2',
   },
-  sensingInterval: 1000,
+  sensingInterval: 5 * MINUTE,
 }
 
 export default config

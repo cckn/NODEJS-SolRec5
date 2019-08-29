@@ -1,10 +1,9 @@
-const queryGenerator = (data, tableInfo) => {
+const queryGenerator = (table, data) => {
   if (!data) {
     return
   }
-  const { tableName, dateTimeColmnName } = tableInfo // string , string
-  const dataKeys = Object.keys(data) //array
-  return `replace into ${tableName} set ${dateTimeColmnName}=now(), 
-         ${dataKeys.map((key) => `${key}=${data[key]}`)}`
+
+  return `replace into ${table} set w_dt=now(), 
+         ${Object.keys(data).map((key) => `${key}=${data[key]}`)}`
 }
 export { queryGenerator }

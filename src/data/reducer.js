@@ -1,24 +1,26 @@
 import _ from 'lodash'
 import actionTypes from './actionTypes'
+import * as db from './db'
 
 const dataObject = {}
 
-const insertData = (key, value) => {
-  dataObject[key] = value
+const insertData = (table, key, value) => {
+  dataObject[table][key] = value
 }
 
-const getData = (key) => dataObject[key]
+const getData = (table, key) => dataObject[table][key]
 
-const reducer = (key, action) => {
-  const {
-    value: targetValue,
-    options: { delta, range },
-  } = action
+const reducer = (table, key, action) => {
+  if (!dataObject.hasOwnProperty(table)) {
+    dataObject[table] = { [key]: action.value }
+  }
 
-  let prevValue = getData(key)
+  const { value: targetValue, options } = action
+
+  let prevValue = getData(table, key)
 
   if (prevValue === undefined) {
-    insertData(key, targetValue)
+    insertData(table, key, targetValue)
     prevValue = targetValue
   }
 
@@ -27,7 +29,9 @@ const reducer = (key, action) => {
       return
     }
     case actionTypes.GO_STATIC_VALUE: {
+      const { delta } = options
       let result
+
       if (_.inRange(prevValue, targetValue - delta, targetValue + delta)) {
         result = targetValue
       } else {
@@ -37,24 +41,28 @@ const reducer = (key, action) => {
             ? prevValue - randomDelta
             : prevValue + randomDelta
       }
-      insertData(key, result)
+      insertData(table, key, result)
       return
     }
 
     case actionTypes.RANDOM_VALUE: {
+      const { range, delta } = options
       let result =
-        targetValue - delta > prevValue
+        targetValue - range > prevValue
           ? prevValue + _.random(delta, true)
-          : targetValue + delta > prevValue
+          : targetValue + range > prevValue
           ? prevValue + _.random(-delta, delta, true)
           : prevValue + _.random(-delta, 0, true)
 
-      insertData(key, result)
+      insertData(table, key, result)
       return
     }
-    case actionTypes.ADD_TOTAL_VALUE: {
-      const value = 1
-      insertData(key, value)
+    case actionTypes.CALLBACK_FUNCTION: {
+      const { ref, f } = options
+      const refValue = ref.map((refKey) => getData(table, refKey))
+      const newData = f(getData(table, key), refValue)
+
+      insertData(table, key, newData)
       return
     }
     default:
@@ -64,4 +72,12 @@ const reducer = (key, action) => {
 
 const getDataObject = () => dataObject
 
-export { insertData, reducer, getDataObject }
+const insertDb = () => {
+  const tables = Object.keys(dataObject)
+
+  tables.forEach((table) => {
+    const data = dataObject[table]
+    db.insert(table, data)
+  })
+}
+export { insertData, reducer, getDataObject, insertDb }
