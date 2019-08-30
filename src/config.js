@@ -11,7 +11,7 @@ const config = {
     port: 3306,
     dbName: 'solrec5v2',
   },
-  sensingInterval: 5 * MINUTE,
+  updateInterval: 5 * MINUTE,
 }
 
 export default config

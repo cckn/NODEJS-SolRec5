@@ -29,9 +29,9 @@ const dataActions = [
           }
         : hours < 18
         ? {
-            type: actionTypes.GO_STATIC_VALUE,
-            value: 0,
-            options: { delta: 2 },
+            type: actionTypes.RANDOM_VALUE,
+            value: 15,
+            options: { delta: 2, range: 3 },
           }
         : {
             type: actionTypes.GO_STATIC_VALUE,
@@ -56,20 +56,6 @@ const dataActions = [
       options: { ref: ['random'], f: (prev, ref) => prev + ref[0] / 12 },
     }),
   },
-  // {
-  //   name: 'static',
-  //   action: () => ({
-  //     type: actionTypes.FIXED_VALUE,
-  //     value: 200,
-  //     options: { delta: 2 },
-  //   }),
-  // },
-  // {
-  //   name: 'sum',
-  //   spec: {
-  //     default: { type: TYPES.TOTAL, value: 100, ref: 'random' },
-  //   },
-  // },
   {
     name: 'state',
     action: (hours, min) => {

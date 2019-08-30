@@ -1,35 +1,59 @@
+import actionTypes from './actionTypes'
+
 const tableInfo = {
   tableName: 'plc_5_ro',
   dateTimeColmnName: 'w_dt',
 }
 
-const dataSpec = {
-  TEMP: {
-    default: { base: 23.5, range: 20, delta: 0.1 },
+const dataActions = [
+  {
+    name: 'TEMP',
+    action: () => ({
+      type: actionTypes.FIXED_VALUE,
+      value: 200,
+      options: { delta: 2 },
+    }),
   },
-  HUMIDITY: {
-    default: { base: 100, range: 20, delta: 1 },
+  {
+    name: 'HUMIDITY',
+    action: () => ({
+      type: actionTypes.FIXED_VALUE,
+      value: 200,
+      options: { delta: 2 },
+    }),
   },
-  EMERGENCY: {
-    default: { base: 1, delta: null },
+  {
+    name: 'EMERGENCY',
+    action: () => ({
+      type: actionTypes.FIXED_VALUE,
+      value: 200,
+      options: { delta: 2 },
+    }),
   },
-  AIRCON_STATUS: {
-    default: { base: 1, delta: 1 },
+  {
+    name: 'AIRCON_STATUS',
+    action: () => ({
+      type: actionTypes.FIXED_VALUE,
+      value: 200,
+      options: { delta: 2 },
+    }),
   },
-  AIRCON_MIN_VALUE: {
-    default: { base: 100, range: 20, delta: 1 },
+  {
+    name: 'AIRCON_MIN_VALUE',
+    action: () => ({
+      type: actionTypes.FIXED_VALUE,
+      value: 200,
+      options: { delta: 2 },
+    }),
   },
-  AIRCON_MAX_VALUE: {
-    default: { base: 100, range: 20, delta: 1 },
+  {
+    name: 'AIRCON_MAX_VALUE',
+    action: () => ({
+      type: actionTypes.FIXED_VALUE,
+      value: 200,
+      options: { delta: 2 },
+    }),
   },
-}
+]
 
-const getDataSpec = (currentHours) => {
-  console.log(currentHours)
-
-  return dataSpec
-}
-
-const data = {}
-
-export { tableInfo, getDataSpec, data }
+export { tableInfo, dataActions }

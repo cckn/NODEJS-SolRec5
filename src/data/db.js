@@ -22,13 +22,13 @@ const init = () => {
 const insert = (table, data) => {
   const query = queryGenerator(table, data)
 
-  console.time('insertData')
+  console.time(`insertData - ${table}`)
 
   db.getResult(query, '', (err, results) => {
     if (err) {
       console.log(results)
     } else {
-      console.timeEnd('insertData')
+      console.timeEnd(`insertData - ${table}`)
     }
   })
 }

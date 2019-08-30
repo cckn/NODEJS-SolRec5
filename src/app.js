@@ -1,6 +1,7 @@
 import { init as dbInit } from './data/db'
 import config from './config'
 
+import * as plc from './data/5-plc'
 import * as test from './data/6-test'
 import * as dataReducer from './data/reducer'
 
@@ -9,6 +10,7 @@ const dataRequest = []
 const main = () => {
   dbInit()
 
+  dataRequest.push(plc)
   dataRequest.push(test)
 
   // for (let hours = 0; hours < 24; hours++) {
@@ -28,13 +30,15 @@ const main = () => {
 
   setInterval(() => {
     dataUpdate()
-  }, config.sensingInterval)
+  }, config.updateInterval)
 }
 
 const dataUpdate = () => {
   const hours = new Date().getHours()
   const min = new Date().getMinutes()
   dataRequest.forEach(({ tableInfo, dataActions }) => {
+    console.log(tableInfo.tableName)
+
     dataActions.forEach(({ name, action }) => {
       dataReducer.reducer(tableInfo.tableName, name, action(hours, min))
     })
