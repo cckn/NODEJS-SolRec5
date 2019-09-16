@@ -24,7 +24,8 @@ const main = () => {
 
   console.log(dataModels)
 
-  dataReducer.initData(dataModels)
+  const hours = config.isRaining ? 0 : new Date().getHours()
+  dataReducer.initData(dataModels, hours)
 
   dataUpdate()
 
@@ -39,17 +40,14 @@ const main = () => {
 }
 
 const dataUpdate = () => {
-  // const hours = new Date().getHours()
-  const hours = 12
+  const hours = config.isRaining ? 0 : new Date().getHours()
   const min = new Date().getMinutes()
   dataModels.forEach(({ tableInfo, dataActions }) => {
-    console.log(tableInfo.tableName)
-
     dataActions.forEach(({ name, action }) => {
       dataReducer.reducer(tableInfo.tableName, name, action(hours, min))
     })
   })
-  console.log(dataReducer.getDataObject())
+  console.log(`${new Date().toLocaleString()} - Data updated`)
 }
 
 main()

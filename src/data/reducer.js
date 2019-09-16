@@ -4,13 +4,13 @@ import * as db from './db'
 
 const dataObject = {}
 
-const initData = (dataModels) => {
+const initData = (dataModels, hours) => {
   dataModels.forEach((model) => {
     dataObject[model.tableInfo.tableName] = {}
     model.dataActions.forEach((item) => {
       dataObject[model.tableInfo.tableName][item.name] = {
         modbusAddress: item.modbusAddress,
-        value: item.action(new Date().getHours()).value,
+        value: item.action(hours).value,
       }
     })
   })

@@ -13,6 +13,7 @@ const config = {
   },
   updateInterval: SECOND,
   insertInterval: SECOND,
+  isRaining: true,
 }
 
 export default config

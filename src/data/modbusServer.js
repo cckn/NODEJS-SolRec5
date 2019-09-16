@@ -72,7 +72,7 @@ const bind = () => {
 //   console.log(num2)
 //   }, 1000)
 
-console.log(`Port :: ${process.argv[2] || 8502}`)
-netServer.listen(process.argv[2] || 8502)
+console.log(`Port :: ${process.argv[2] || 502}`)
+netServer.listen(process.argv[2] || 502)
 
 export { bind }
