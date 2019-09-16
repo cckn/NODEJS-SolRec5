@@ -12,8 +12,8 @@ const config = {
     dbName: 'solrec5v2',
   },
   updateInterval: SECOND,
-  insertInterval: SECOND,
-  isRaining: true,
+  insertInterval: MINUTE,
+  isRaining: false,
 }
 
 export default config
