@@ -10,7 +10,7 @@ const initData = (dataModels) => {
     model.dataActions.forEach((item) => {
       dataObject[model.tableInfo.tableName][item.name] = {
         modbusAddress: item.modbusAddress,
-        value: item.action().value,
+        value: item.action(new Date().getHours()).value,
       }
     })
   })
