@@ -8,16 +8,20 @@ const initData = (dataModels) => {
   dataModels.forEach((model) => {
     dataObject[model.tableInfo.tableName] = {}
     model.dataActions.forEach((item) => {
-      dataObject[model.tableInfo.tableName][item.name] = item.action().value
+      dataObject[model.tableInfo.tableName][item.name] = {
+        modbusAddress: item.modbusAddress,
+        value: item.action().value,
+      }
     })
   })
+  console.log(dataObject)
 }
 
 const insertData = (table, key, value) => {
-  dataObject[table][key] = value
+  dataObject[table][key].value = value
 }
 
-const getData = (table, key) => dataObject[table][key]
+const getData = (table, key) => dataObject[table][key].value
 
 const reducer = (table, key, action) => {
   const { value: targetValue, options } = action
@@ -80,4 +84,6 @@ const insertDb = () => {
     db.insert(table, data)
   })
 }
+
+export { dataObject }
 export { initData, insertData, reducer, getDataObject, insertDb }

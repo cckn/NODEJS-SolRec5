@@ -4,6 +4,6 @@ const queryGenerator = (table, data) => {
   }
 
   return `replace into ${table} set w_dt=now(), 
-         ${Object.keys(data).map((key) => `${key}=${data[key]}`)}`
+         ${Object.keys(data).map((key) => `${key}=${data[key].value}`)}`
 }
 export { queryGenerator }

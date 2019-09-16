@@ -1,3 +1,4 @@
+import action from '../action'
 import actionTypes from '../actionTypes'
 
 const tableInfo = {
@@ -7,52 +8,34 @@ const tableInfo = {
 
 const dataActions = [
   {
-    name: 'TEMP',
-    action: () => ({
-      type: actionTypes.FIXED_VALUE,
-      value: 200,
-      options: { delta: 2 },
-    }),
-  },
-  {
-    name: 'HUMIDITY',
-    action: () => ({
-      type: actionTypes.FIXED_VALUE,
-      value: 200,
-      options: { delta: 2 },
-    }),
-  },
-  {
-    name: 'EMERGENCY',
-    action: () => ({
-      type: actionTypes.FIXED_VALUE,
-      value: 200,
-      options: { delta: 2 },
-    }),
-  },
-  {
-    name: 'AIRCON_STATUS',
-    action: () => ({
-      type: actionTypes.FIXED_VALUE,
-      value: 200,
-      options: { delta: 2 },
-    }),
+    name: 'AIRCON_MAX_VALUE',
+    modbusAddress: 122,
+    action: () => action(actionTypes.FIXED_VALUE, 0, null),
   },
   {
     name: 'AIRCON_MIN_VALUE',
-    action: () => ({
-      type: actionTypes.FIXED_VALUE,
-      value: 200,
-      options: { delta: 2 },
-    }),
+    modbusAddress: 121,
+    action: () => action(actionTypes.FIXED_VALUE, 0, null),
   },
   {
-    name: 'AIRCON_MAX_VALUE',
-    action: () => ({
-      type: actionTypes.FIXED_VALUE,
-      value: 200,
-      options: { delta: 2 },
-    }),
+    name: 'AIRCON_STATUS',
+    modbusAddress: 120,
+    action: () => action(actionTypes.FIXED_VALUE, 0, null),
+  },
+  {
+    name: 'EMERGENCY',
+    modbusAddress: 42,
+    action: () => action(actionTypes.FIXED_VALUE, 0, null),
+  },
+  {
+    name: 'HUMIDITY',
+    modbusAddress: 41,
+    action: () => action(actionTypes.FIXED_VALUE, 0, null),
+  },
+  {
+    name: 'TEMP',
+    modbusAddress: 40,
+    action: () => action(actionTypes.FIXED_VALUE, 0, null),
   },
 ]
 

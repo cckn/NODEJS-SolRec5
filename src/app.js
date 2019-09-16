@@ -1,23 +1,36 @@
 import { init as dbInit } from './data/db'
 import config from './config'
 
+import * as bms from './data/models/1-bms'
+import * as pv from './data/models/2-pv'
+import * as pcs from './data/models/3-pcs'
+import * as ess from './data/models/4-ess'
 import * as plc from './data/models/5-plc'
-import * as test from './data/models/6-test'
-import * as dataReducer from './data/reducer'
 
-const dataRequest = []
+import * as dataReducer from './data/reducer'
+import { bind } from './data/modbusServer'
+
+const dataModels = []
 
 const main = () => {
   dbInit()
 
-  dataRequest.push(plc)
-  dataRequest.push(test)
-  dataReducer.initData(dataRequest)
+  dataModels.push(bms)
+  dataModels.push(pv)
+  dataModels.push(pcs)
+  dataModels.push(ess)
+  dataModels.push(plc)
+  // dataModels.push(test)
+
+  console.log(dataModels)
+
+  dataReducer.initData(dataModels)
 
   dataUpdate()
 
   setInterval(() => {
     dataUpdate()
+    bind()
   }, config.updateInterval)
 
   setInterval(() => {
@@ -26,18 +39,17 @@ const main = () => {
 }
 
 const dataUpdate = () => {
-  const hours = new Date().getHours()
+  // const hours = new Date().getHours()
+  const hours = 12
   const min = new Date().getMinutes()
-  dataRequest.forEach(({ tableInfo, dataActions }) => {
+  dataModels.forEach(({ tableInfo, dataActions }) => {
     console.log(tableInfo.tableName)
 
     dataActions.forEach(({ name, action }) => {
       dataReducer.reducer(tableInfo.tableName, name, action(hours, min))
     })
   })
-  console.log(
-    `${hours} : ${min} ${JSON.stringify(dataReducer.getDataObject())}`,
-  )
+  console.log(dataReducer.getDataObject())
 }
 
 main()

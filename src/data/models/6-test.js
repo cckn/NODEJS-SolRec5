@@ -1,4 +1,5 @@
 import actionTypes from '../actionTypes'
+import action from '../action'
 
 const tableInfo = {
   tableName: 'test',
@@ -8,6 +9,7 @@ const tableInfo = {
 const dataActions = [
   {
     name: 'random',
+    modbusAddress: 0,
     action: (hours, min) => {
       return hours < 6
         ? {
@@ -42,26 +44,27 @@ const dataActions = [
   },
   {
     name: 'static',
-    action: () => ({
-      type: actionTypes.FIXED_VALUE,
-      value: 200,
-      options: { delta: 2 },
-    }),
+    // modbusAddress: 2,
+    action: () => action(actionTypes.FIXED_VALUE, 200, { delta: 2 }),
   },
   {
     name: 'sum',
-    action: () => ({
-      type: actionTypes.CALLBACK_FUNCTION,
-      value: 200,
-      options: { ref: ['random'], f: (prev, ref) => prev + ref[0] / 12 },
-    }),
+    modbusAddress: 1,
+
+    action: () =>
+      action(actionTypes.CALLBACK_FUNCTION, 200, {
+        ref: ['random'],
+        f: (prev, ref) => prev + ref[0] / 3600,
+      }),
   },
   {
     name: 'state',
+    modbusAddress: 4,
+
     action: (hours, min) => {
       return {
         type: actionTypes.RANDOM_VALUE,
-        value: 6000,
+        value: 20,
         options: { delta: 1000, range: 10 },
       }
     },
