@@ -1,8 +1,8 @@
 import { init as dbInit } from './data/db'
 import config from './config'
 
-import * as plc from './data/5-plc'
-import * as test from './data/6-test'
+import * as plc from './data/models/5-plc'
+import * as test from './data/models/6-test'
 import * as dataReducer from './data/reducer'
 
 const dataRequest = []
@@ -12,25 +12,17 @@ const main = () => {
 
   dataRequest.push(plc)
   dataRequest.push(test)
+  dataReducer.initData(dataRequest)
 
-  // for (let hours = 0; hours < 24; hours++) {
-  //   for (let min = 0; min < 60; min = min + 5) {
-  //     dataRequest.forEach(({ tableInfo, dataActions }) => {
-  //       dataActions.forEach(({ name, action }) => {
-  //         dataReducer.reducer(tableInfo.tableName, name, action(hours, min))
-  //       })
-  //     })
-  //     console.log(
-  //       `${hours} : ${min} ${JSON.stringify(dataReducer.getDataObject())}`,
-  //     )
-  //   }
-  //   console.log(hours)
-  // }
   dataUpdate()
 
   setInterval(() => {
     dataUpdate()
   }, config.updateInterval)
+
+  setInterval(() => {
+    dataReducer.insertDb()
+  }, config.insertInterval)
 }
 
 const dataUpdate = () => {
@@ -43,7 +35,6 @@ const dataUpdate = () => {
       dataReducer.reducer(tableInfo.tableName, name, action(hours, min))
     })
   })
-  dataReducer.insertDb()
   console.log(
     `${hours} : ${min} ${JSON.stringify(dataReducer.getDataObject())}`,
   )

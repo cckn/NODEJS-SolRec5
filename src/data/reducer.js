@@ -4,6 +4,15 @@ import * as db from './db'
 
 const dataObject = {}
 
+const initData = (dataModels) => {
+  dataModels.forEach((model) => {
+    dataObject[model.tableInfo.tableName] = {}
+    model.dataActions.forEach((item) => {
+      dataObject[model.tableInfo.tableName][item.name] = item.action().value
+    })
+  })
+}
+
 const insertData = (table, key, value) => {
   dataObject[table][key] = value
 }
@@ -11,18 +20,9 @@ const insertData = (table, key, value) => {
 const getData = (table, key) => dataObject[table][key]
 
 const reducer = (table, key, action) => {
-  if (!dataObject.hasOwnProperty(table)) {
-    dataObject[table] = { [key]: action.value }
-  }
-
   const { value: targetValue, options } = action
 
   let prevValue = getData(table, key)
-
-  if (prevValue === undefined) {
-    insertData(table, key, targetValue)
-    prevValue = targetValue
-  }
 
   switch (action.type) {
     case actionTypes.FIXED_VALUE: {
@@ -80,4 +80,4 @@ const insertDb = () => {
     db.insert(table, data)
   })
 }
-export { insertData, reducer, getDataObject, insertDb }
+export { initData, insertData, reducer, getDataObject, insertDb }

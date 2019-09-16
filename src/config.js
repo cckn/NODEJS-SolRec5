@@ -11,7 +11,8 @@ const config = {
     port: 3306,
     dbName: 'solrec5v2',
   },
-  updateInterval: 5 * MINUTE,
+  updateInterval: 1000,
+  insertInterval: MINUTE,
 }
 
 export default config

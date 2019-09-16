@@ -2,7 +2,7 @@ import db from '../mysql'
 import config from '../config'
 
 import { queryGenerator } from './queryGenerator'
-import * as test from './6-test'
+import * as test from './models/6-test'
 
 const init = () => {
   db.connect(
